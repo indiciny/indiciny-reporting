@@ -2,6 +2,7 @@ import streamlit as st
 import mysql.connector
 
 if 'authorized' not in st.session_state or not st.session_state.authorized:
+    st.session_state.dbexport = ''
     st.session_state.authorized = False
     with st.form("my_form"):
         st.write("Please provide admin credentials:")
@@ -24,7 +25,7 @@ if st.session_state.authorized:
         query = "SELECT * FROM `indiciny_transactions`;"
         with conn.cursor() as cursor:
             cursor.execute(query)
-            query_result = cursor.fetchall()
+            st.session_state.dbexport = cursor.fetchall()
 
-    if query_result:
-        query_result
+    if st.session_state.dbexport:
+        st.session_state.dbexport
