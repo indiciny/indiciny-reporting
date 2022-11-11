@@ -1,7 +1,7 @@
 import streamlit as st
 import mysql.connector
 
-if 'authorized' not in st.session_state:
+if 'authorized' not in st.session_state or not st.session_state.authorized:
     st.session_state.authorized = False
     with st.form("my_form"):
         st.write("Please provide admin credentials:")
@@ -13,6 +13,8 @@ if 'authorized' not in st.session_state:
     if submitted:
         if user_name == st.secrets.admin and password == st.secrets.password:
             st.session_state.authorized = True
+        else:
+            st.warning('Wrong credentials!')
 
 
 if st.session_state.authorized:
@@ -23,6 +25,7 @@ if st.session_state.authorized:
         with conn.cursor() as cursor:
             cursor.execute(query)
             query_result = cursor.fetchall()
-            
+
     if query_result is not None:
         query_result
+
