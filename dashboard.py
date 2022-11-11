@@ -26,6 +26,5 @@ if st.session_state.authorized:
             cursor.execute(query)
             query_result = cursor.fetchall()
 
-    if query_result is not None:
+    if query_result:
         query_result
-
